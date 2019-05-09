@@ -9,7 +9,7 @@
     "start:dev": "concurrently \"nodemon server.js --ignore client/*\" \"npm run webpack:dev\"",
     "webpack:production": "webpack --mode:production -w",
     "webpack:dev": "webpack --mode:development -w",
-    "build": "npx webpack:production",
+    "build": "webpack --mode:production",
     "heroku-postbuild": "npm run build",
     "test": "jest client/src/",
     "lint": "eslint client/src"
