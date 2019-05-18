@@ -1,55 +1,28 @@
 import Shapes from "./Shapes";
 const { Point, Grid } = Shapes;
-
+import Queue from './queue';
 const DIRECTIONS = {
   UP: Point.make(0, -1),
   DOWN: Point.make(0, 1),
   LEFT: Point.make(-1, 0),
   RIGHT: Point.make(1, 0)
 };
-const makeQueue = () => {
-  const makeLink = (data) => {
-    return {
-      data,
-      next: null
-    }
+
+// Helper functions
+const isPassable = cell => cell && cell.data && !cell.data.wall;
+const ensureDigits = (number, digits) => {
+  let numStr = number.toString();
+  while(numStr.length < digits){
+    numStr = "0" + numStr;
   }
-  return {
-    root:null,
-    tail:null,
-    length: 0,
-    enqueue: function(data){
-      if(!this.root){
-        this.root = makeLink(data);
-        this.tail = this.root;
-      } else {
-        const newLink = makeLink(data)
-        this.tail.next = newLink;
-        this.tail = newLink;
-      }
-      this.length++;
-    },
-    dequeue: function(){
-      if(!this.root){
-        return null;
-      } else {
-        this.length--;
-        const toReturn = this.root.data;
-        this.root = this.root.next;
-        return toReturn;
-      }
-    }
-  }
+  return numStr;
 
 };
 
 // handle bfs, dijkstra, and A-*
-
 export const calculatePathSequence = (map, start, end) => {
 
   let path = [];
-  const isPassable = cell => cell && cell.data && !cell.data.wall;
-
   const makeResponse = valid => {
     return {
       valid,
@@ -61,6 +34,7 @@ export const calculatePathSequence = (map, start, end) => {
   // We can't make it, so don't even try
   const startCell = map.getP(start);
   const endCell = map.getP(end);
+
   if(!isPassable(startCell) || !isPassable(endCell)){
     return makeResponse(false);
   }
@@ -76,17 +50,15 @@ export const calculatePathSequence = (map, start, end) => {
     }
   })
 
-  // startCells
-  // endCell
-  const toVisit = makeQueue();
+  const toVisit = Queue.make();
   toVisit.enqueue(visitGrid.getP(start));
   visitGrid.getP(start).distance = 0;
+
   while(toVisit.length > 0){
     let gridCell = toVisit.dequeue();
     let mapCell = map.getP(gridCell);
     gridCell.visited = true;
-    // visit each one of our neighbors
-    //console.log(gridCell);
+
     if(gridCell.passable){
       const neighbors = [
         visitGrid.getP(Point.add(gridCell, DIRECTIONS.UP)),
@@ -105,40 +77,24 @@ export const calculatePathSequence = (map, start, end) => {
     }
   }
 
-  const ensureDigits = (number, digits) => {
-    let numStr = number.toString();
-    while(numStr.length < digits){
-      numStr = "0" + numStr;
-    }
-    return numStr;
+  const printCell = (cell) =>
+    cell.distance < Infinity
+      ? ensuredDigits(cell.distance, 2)
+      : '..';
 
-  };
+  console.log("\n\n" + Grid.print(visitGrid,printCell, 1, 1));
 
-  console.log("\n\n" + Grid.print(visitGrid, (cell) => {
-      console.log(cell);
-      if(cell.distance < Infinity){
-        return ensureDigits(cell.distance, 2);
-      }
-      return '..';
-  },1, 1));
-
-  // now let's walk backwards and find how to get there
+  // CALCULATE EXACT PATH FROM GRID
   let back = visitGrid.getP(end);
-  console.log(back);
   while(back != null){
     path.push(Point.copy(back));
     back = back.previous;
   }
-  //path = path.reverse();
-  console.log(path);
-  if(path[path.length - 1].x !== start.x && path[path.length - 1].y !== start.y){
+
+  if(Point.equal(path[path.length - 1], start){
     path = [];
     return makeResponse(false);
   }
 
   return makeResponse(true);
-
-  // in here we will determine if something is passable on the map
-
-  // we are going to make our own grid to work with and use a traverser for now
 }

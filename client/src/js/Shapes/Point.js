@@ -39,6 +39,10 @@ const scaleTo = (p, size) => {
   return p;
 }
 
+const equal = (p1, p2) => {
+  return p1.x === p2.x && p1.y === p2.y;
+}
+
 const ZERO = Object.freeze(make(0,0));
 
 export default {
@@ -50,5 +54,6 @@ export default {
   add,
   addTo,
   scale,
-  scaleTo
+  scaleTo,
+  equal
 }

@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.1",
+    "esm": "^3.2.22",
     "express": "^4.16.3"
   }
 }

@@ -22,8 +22,7 @@ const GRID_HEIGHT = 21;
 const randomInt = (maxExclusive) => { return Math.floor(Math.random() * maxExclusive)}
 const player = Point.make(randomInt(GRID_WIDTH), randomInt(GRID_HEIGHT));
 const renderGrid = RenderGrid.make(GRID_WIDTH, GRID_HEIGHT);
-// right now I don't know what we want to store, let's go ahead and just say
-// if a tile is a wall or not
+
 const makeMapCell = (x,y) => {
   return { x,y,
     data: {
