@@ -23,10 +23,19 @@ const makeLink = (fn, priority, next = null) => {
 
 
 class SubscriberList {
-  constructor(){
+  constructor(disabled = false){
     this.root = null;
     this.tail = null;
     this.length = 0;
+    this.disabled = disabled;
+  }
+  disable(){
+    this.disabled = true;
+    return this;
+  }
+  enable(){
+    this.disabled = false;
+    return this;
   }
   // For now we just add priorities by number
   // lower priority runs first
@@ -119,6 +128,9 @@ class SubscriberList {
   }
 
   notify(message, topic){
+    if(this.disabled){
+      return;
+    }
     let traveller = this.root;
     while(traveller != null){
       traveller.fn(message, topic); // potentially allow early cutoffs?

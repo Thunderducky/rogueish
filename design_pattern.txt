@@ -1,0 +1,20 @@
+Item
+  Attack melee
+  Attack range
+  Defense
+  Use
+
+PowerStructure
+
+Use components to represent capabilities
+
+Actors -> Things that can move
+
+Command / Action patterns
+
+ActionResult perform
+
+Action's are first class TURNS
+
+WalkAction
+UseAction

@@ -157,4 +157,7 @@ describe('Fulfill basic Subscriber Operations and mantain the order', () => {
       sl.notify(MESSAGE, TOPIC);
       expect(testFn).toHaveBeenCalledTimes(0);
     });
+
+    // it('should be disable-able', () => {});
+    // it('should be reenable-able', () => {});
 });

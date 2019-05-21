@@ -1,0 +1,83 @@
+Asteroid Story
+
+There is an asteroid that was captured, put in Earth orbit, which is now set with a collision course with the planet
+You can either save the planet or just try to get out alive.
+
+1. Escape ** <- Prototype
+  Shuttles
+  Space Suit Chance
+
+2. Deflection
+  Move it out of the way of the earth
+    Rocket Burn,
+    Detonation,
+    atmospheric skidding
+
+3. Asteroid Capture
+  This scenario would only work if the asteroid wasn't captured already
+
+
+  Prototype #1
+    Find Spacesuit, Radio for help, get to docking station
+
+
+Very short game, we don't want to take up to much of people's time
+Fast Run - 5 minutes
+Average Run - 10 minutes
+Intro Run - 15 minutes
+
+First Mode
+  Civilian
+    (No Combat, No Equipment except Suit, Generous Time Limit, Can only Escape)
+    Things you can do
+      Cycle Airlocks - Very simple implementation
+      Open Close Doors
+      Explore Station
+      The occasional Spacewalk
+      No Jetpack
+      Could make it a very designed experience I suppose, if they want to know the map well, it could
+      be the damage that varies, but the place eventually gets well known
+
+  Game Sequence
+    Setup
+      Generate Geometry
+      Place Items
+      Place Camera, have Camera track player
+      Generate Power Grid
+      // TODO: Allow a hardcoded version of the map
+      // TOOLS: Make a map editor & loader
+      // this is good because it'll let me try things
+      // it'll also let people save/share maps
+
+      // Let's also make a tool that can store things in local storage
+      // Also, let's make a multi-entry point for webpack, but they can leverage similar libraries
+
+      Data
+        Level Geometry Data    <-  Generate
+                                -  Serialize
+                                -  Deserialize
+        Connection Data
+        Fov Data
+        Air Data
+        Render Data
+
+        At the beginning during setup all of this will be calculated ahead of time
+
+
+  Design
+    What makes a good maze?
+    Movement puzzles
+    Switch puzzles
+
+  // Tech parallax stars background?
+
+
+
+Other Modes
+  Medic
+  Engineer
+  Solider
+  Stowaway
+
+Final Mode
+  Play with friends?

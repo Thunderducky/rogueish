@@ -1,9 +1,3 @@
-import Point from './Point';
-import Rectangle from './Rectangle';
-import Grid from './Grid';
-
-export default {
-  Point,
-  Rectangle,
-  Grid
-}
+export { default as Point } from './Point';
+export { default as Rectangle } from './Rectangle';
+export { default as Grid } from './Grid';

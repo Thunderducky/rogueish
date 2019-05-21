@@ -27,6 +27,9 @@ const make = (width,height) => {
     // convenience function
     getP: function(p){
       return this.getXY(p.x, p.y);
+    },
+    getIndex: function(i){
+      return this.cells[i];
     }
     // we don't offer a setXY on purpose, you
     // should be manipulating an individual cell
@@ -57,6 +60,14 @@ const setEach = (grid, fn) => {
     grid.cells[i] = fn(x,y,i);
   }
   return grid;
+}
+
+const forEach = (grid, fn) => {
+  for(let i = 0; i < grid.cells.length; i++){
+    const x = i % grid.width;
+    const y = (i - x)/grid.width;
+    fn(grid.cells[i], x, y, i);
+  }
 }
 
 const inBoundsXY = (grid, x, y) => {
@@ -129,6 +140,7 @@ export default {
   make,
   print,
   inBoundsXY,
+  forEach,
   setEach,
   getAxisAlignedNeighborsXY,
   makeAxisAlignedGridTraverser

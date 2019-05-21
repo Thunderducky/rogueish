@@ -1,13 +1,13 @@
 // Inspired by https://github.com/mroderick/PubSubJS/blob/master/src/pubsub.js
 // you should use this one instead, I'm adapting their design for my own education
-import SubscriberList from './SubscriberList';
-class PubSub {
+import SubscriberList from './SubscriberList.js';
+export class PubSub {
   constructor(){
     this.topics = {};
   }
   publish(topic, message){ // we will keep doing this synchronously until we can't anymore :P
     // TODO: Add subtopics and specialized subscriptions
-    if(!this.topics[topic]){
+    if(this.topics[topic]){
       this.topics[topic].notify(message, topic); // we flip this so that the handling is easier, for instance if we don't care about the topic
     }
   }
@@ -16,7 +16,13 @@ class PubSub {
     if(!this.topics[topic]){ // if this doesn't already exist
       this.topics[topic] = new SubscriberList();
     }
-    this.topics[topic].subscribe(topic, fn, priority);
+    this.topics[topic].subscribe(fn, priority);
+  }
+  getSubscriberList(topic){
+    if(!this.topics[topic]){ // if this doesn't already exist
+      this.topics[topic] = new SubscriberList();
+    }
+    return this.topics[topic];
   }
   subscribeOnce(topic, fn){
     if(!this.topics[topic]){ // if this doesn't already exist
@@ -37,4 +43,4 @@ class PubSub {
   }
 }
 
-export default PubSub
+export const PUBSUB = new PubSub();
