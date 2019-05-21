@@ -93,7 +93,6 @@ const RenderSystem = {
 };
 
 const MoveSystem = {
-  processIntent: ({geometryData, actorData}, moveIntent) => {},
   processAction: ({geometryData, actorData}, moveAction) => {
     console.log("test");
     const mover = actorData.getActorById(moveAction.actorId);
@@ -105,7 +104,8 @@ const MoveSystem = {
 
 const TOPICS = {
   NEW_LEVEL: "NEW_LEVEL",
-  RERENDER: "RERENDER"
+  RERENDER: "RERENDER",
+  MOVE: "MOVE"
 }
 PUBSUB.subscribe(TOPICS.NEW_LEVEL, ({levelString}) => {
   GeometrySystem.simpleStringLoader({geometry: GeometryData}, levelString)
@@ -114,6 +114,11 @@ PUBSUB.subscribe(TOPICS.NEW_LEVEL, ({levelString}) => {
 
 PUBSUB.subscribe(TOPICS.RERENDER, () => {
   RenderSystem.render({geometryData: GeometryData, actorData: ActorData, renderData: RenderData});
+})
+
+PUBSUB.subscribe(TOPICS.MOVE, move => {
+  MoveSystem.processAction({geometryData: GeometryData, actorData: ActorData }, move);
+  PUBSUB.publish(TOPICS.RERENDER, null);
 })
 
 
