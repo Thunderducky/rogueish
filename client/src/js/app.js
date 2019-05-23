@@ -3,6 +3,7 @@ import {Point, Grid} from './Shapes'
 import { TOPICS } from './Pubsub/topics.js'
 import { RenderSystem } from './Systems/RenderSystem.js'
 import { MoveSystem } from './Systems/MoveSystem.js'
+import { FovSystem } from './Systems/FovSystem.js'
 import Colors from './colors.js'
 
 const player = {
@@ -45,6 +46,14 @@ const levelString = linearize(`
 // Let's prototype out a system and then move it into the appropriate data
 GeometryData.grid = Grid.make(SETTINGS.GRID_WIDTH, SETTINGS.GRID_HEIGHT);
 RenderData.grid = Grid.make(SETTINGS.GRID_WIDTH, SETTINGS.GRID_HEIGHT);
+FovData.grid = Grid.make(SETTINGS.GRID_WIDTH, SETTINGS.GRID_HEIGHT);
+
+Grid.setEach(FovData.grid, (x,y) => {
+  return {
+    x,y, visible : false
+  }
+})
+
 Grid.setEach(RenderData.grid, (x,y) => {
   return {
     x,y,
@@ -59,16 +68,11 @@ const GeometrySystem = {
   load: () => {},
   simpleStringLoader: ({geometry},str) => {
     Grid.setEach(geometry.grid, (x,y, index) => {
-      return { x,y, wall: str[index] === "X"}
+      return { x,y, wall: str[index] === "X", explored: false }
     });
   },
   generate: () => {}
 };
-
-// ACTIONS with there own ids and types would probably be useful
-const FovSystem = {};
-
-// This is for HTML and displaying
 
 const UISystem = {
   displayRenderGrid: ({renderData}) => {
@@ -89,7 +93,12 @@ PUBSUB.subscribe(TOPICS.NEW_LEVEL, ({levelString}) => {
 })
 
 PUBSUB.subscribe(TOPICS.RERENDER, () => {
-  RenderSystem.render({geometryData: GeometryData, actorData: ActorData, renderData: RenderData});
+  // Eventually we will move this
+  console.log(FovSystem);
+  FovSystem.calculateFov({geometryData: GeometryData, fovData: FovData}, player.position);
+  console.log("FOV");
+  console.log(Grid.print(FovData.grid, cell => cell.visible ? '-' : 'X'));
+  RenderSystem.render({geometryData: GeometryData, fovData: FovData, actorData: ActorData, renderData: RenderData});
   UISystem.displayRenderGrid({renderData: RenderData})
 })
 

@@ -44,7 +44,7 @@ const equal = (p1, p2) => {
 }
 
 const ZERO = Object.freeze(make(0,0));
-
+// TODO: add frozen directions
 export default {
   make,
   set,

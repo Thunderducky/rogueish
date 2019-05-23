@@ -36,11 +36,17 @@ const makeColorFromHexStr = str => {
 const toHexStr = (color) => {
   return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(16)}`;
 };
+
+const darken = (color, amount) => {
+  return makeColor(color.r - amount, color.g - amount, color.b - amount);
+}
+const copy = (origin) => makeColor(origin.r, origin.g, origin.b, origin.a);
 // eventually we will probably shift the internal representation, but now for right now
 export default {
   BLACK: makeColor(0,0,0),
   WHITE: makeColor(255,255,255),
   makeColor,
+  darken,
   makeColorFromHexStr,
   toHexStr
 }
