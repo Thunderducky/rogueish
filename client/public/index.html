@@ -5,10 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Rogueish</title>
+  <style>
+    body {
+      background: #223;
+      color: #ddd;
+    }
+    h1 {
+      font-family:monospace;
+    }
+    pre {
+      background: #112;
+      width:fit-content;
+      margin: 0 auto;
+    }
+    .cell {
+      display: inline-block;
+      margin: 0px;
+      width:15px;
+      height:15px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Example</h1>
+  <h1>asteroid story</h1>
   <div id="container">
+      <pre id="display"></pre>
   </div>
   <script type="text/javascript" src="bundle.js"></script>
   <script src="http://localhost:35729/livereload.js"></script>
